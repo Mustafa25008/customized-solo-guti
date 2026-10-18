@@ -2420,18 +2420,20 @@ export function App() {
 
                 {/* Bottom Legend Bar inside Board Frame */}
                 <div className="w-full mt-2 pt-2 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-300/80 px-2">
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block" />
-                    Adjacent Step
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block" />
-                    Capture Jump Target
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full border border-red-400 inline-block" />
-                    Jumpable Enemy
-                  </span>
+                  <div className="flex items-center gap-4">
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block" />
+                      Adjacent Step
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block" />
+                      Capture Jump Target
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full border border-red-400 inline-block" />
+                      Jumpable Enemy
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
