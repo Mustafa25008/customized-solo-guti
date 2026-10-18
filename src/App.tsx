@@ -1692,9 +1692,6 @@ export function App() {
                 className="group flex items-center gap-2.5 p-3 sm:px-4 sm:py-2.5 rounded-2xl bg-white/10 hover:bg-amber-500/20 border border-white/15 hover:border-amber-400/50 text-slate-100 shadow-lg backdrop-blur-md transition-all duration-200 cursor-pointer active:scale-95"
               >
                 <Settings className="w-5 h-5 text-amber-400 group-hover:rotate-45 transition-transform duration-300" />
-                <span className="text-xs sm:text-sm font-bold tracking-wide text-amber-100">
-                  Settings
-                </span>
               </button>
 
               <button
@@ -1726,10 +1723,10 @@ export function App() {
           </div>
 
           {/* CENTER OF HOME SCREEN: BRAND HERO & "OPPONENT MODE" IN 2 ROWS */}
-          <div className="relative z-10 flex-1 flex flex-col items-center justify-center my-6 px-2">
+          <div className="relative z-10 flex-1 flex flex-col items-center justify-center my-4 px-2">
             {/* Game Emblem & Title */}
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-gradient-to-br from-amber-300 via-amber-500 to-amber-700 p-0.5 shadow-[0_0_40px_rgba(245,158,11,0.35)] mb-4">
+            <div className="text-center mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-gradient-to-br from-amber-300 via-amber-500 to-amber-700 p-0.5 shadow-[0_0_40px_rgba(245,158,11,0.35)] mb-2">
                 <div className="w-full h-full bg-slate-950/90 rounded-[22px] flex items-center justify-center">
                   <Swords className="w-8 h-8 sm:w-10 sm:h-10 text-amber-400" />
                 </div>
@@ -1738,9 +1735,7 @@ export function App() {
               <h1 className="text-3xl sm:text-5xl font-black tracking-tight bg-gradient-to-r from-amber-200 via-white to-amber-300 bg-clip-text text-transparent drop-shadow">
                 SHOLO GUTI
               </h1>
-              <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-amber-400/90 font-bold mt-1">
-                Bead 16 Tactical Strategy
-              </p>
+              
 
               {/* Current Active Board Spec Pill (Configured via Top-Left Settings) */}
               <div className="mt-4 inline-flex flex-wrap items-center justify-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-slate-300">
@@ -1756,7 +1751,7 @@ export function App() {
 
             {/* MAIN CENTER CARD: "Opponent Mode" in 2 Rows */}
             <div className="w-full max-w-md rounded-3xl bg-slate-900/85 border-2 border-white/15 p-6 sm:p-8 shadow-[0_25px_70px_rgba(0,0,0,0.75)] backdrop-blur-xl">
-              <div className="text-center mb-6">
+              <div className="text-center mb-4">
                 <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-amber-400 block mb-1">
                   Select Match Type
                 </span>
