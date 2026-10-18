@@ -1660,13 +1660,13 @@ export function App() {
 
   return (
     <div
-      className={`min-h-screen ${themeStyle.outerShellBg} text-slate-100 flex flex-col font-sans selection:bg-amber-500/30 relative overflow-x-hidden`}
+      className={`app-shell ${activeScreen === 'home' ? 'home-app-shell' : ''} min-h-screen ${themeStyle.outerShellBg} text-slate-100 flex flex-col font-sans selection:bg-amber-500/30 relative overflow-x-hidden`}
     >
       {/* =====================================================================
           SCREEN 1: DEDICATED HOME SCREEN
          ===================================================================== */}
       {activeScreen === 'home' && (
-        <div className="min-h-screen flex flex-col justify-between max-sm:justify-start p-4 sm:p-6 relative">
+        <div className="home-screen min-h-screen flex flex-col justify-between max-sm:justify-start p-4 sm:p-6 relative">
           {/* Decorative Ambient Background Glows */}
           <div className="pointer-events-none fixed inset-0 overflow-hidden z-0">
             <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-amber-500/10 blur-3xl" />
