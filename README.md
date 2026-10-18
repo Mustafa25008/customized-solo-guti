@@ -1,14 +1,17 @@
-# 🎮 Game Project
+# 🎮 Sholo Guti — Bead 16 Strategy Game
 
-A browser based game built with **React, TypeScript, and Tailwind CSS v4**. The project uses Vite for fast development and a modern frontend development workflow.
+A browser-based Sholo Guti (Bead 16) strategy game built with **React, TypeScript, and Tailwind CSS v4**, and powered by Vite.
 
 ## ✨ Features
 
-- **Interactive Gameplay:** Play directly in your browser.
-- **React:** Component based UI development.
-- **TypeScript:** Type safety and improved code maintainability.
-- **Tailwind CSS v4:** Modern styling and responsive layouts.
-- **Vite:** Fast development server and optimized builds.
+- **Custom Board Setup:** Choose 3–9 rows and columns, and set at least 3 beads per player (up to the board's supported maximum).
+- **Board Materials:** Choose from four themes: Royal Teak Wood, Imperial Jade Marble, Midnight Obsidian Slate, and Ancient Terracotta.
+- **Diagonal Geometry:** Select traditional Sholo Guti diagonals or full 8-way diagonals.
+- **Bead Personalization:** Customize each player's name, bead color (six choices), and bead icon (six choices).
+- **Game Modes:** Play against the AI at Easy, Medium, or Hard difficulty, or play locally with two players using pass-and-play.
+- **Audio Controls:** Mute or unmute game audio from the home screen or during a match.
+- **Match Tools:** Request a move hint, undo turns, restart the match, and view the Sholo Guti / Bead 16 rules.
+- **Randomized Starting Turn:** The starting player is selected randomly for both AI and local two-player matches.
 
 ## 🛠️ Tech Stack
 
