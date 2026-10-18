@@ -12,6 +12,7 @@ import {
   RotateCcw,
   Settings,
   Lightbulb,
+  UndoDot,
   Play,
   Trophy,
   ChevronRight,
@@ -1800,9 +1801,6 @@ export function App() {
                         <span className="text-[11px] font-bold uppercase tracking-wider text-amber-300">
                           Choose AI Difficulty Level
                         </span>
-                        <span className="text-[11px] text-slate-400">
-                          Click to launch
-                        </span>
                       </div>
 
                       <div className="grid grid-cols-1 gap-2">
@@ -1994,7 +1992,7 @@ export function App() {
                   title="Undo Move"
                   className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition disabled:opacity-40 cursor-pointer"
                 >
-                  <RotateCcw className="w-4 h-4" />
+                  <UndoDot className="w-4 h-4" />
                   <span className="hidden md:inline">Undo</span>
                 </button>
 
@@ -2005,7 +2003,7 @@ export function App() {
                   }}
                   className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition cursor-pointer"
                 >
-                  <Play className="w-4 h-4 text-emerald-400" />
+                  <RotateCcw className="w-4 h-4 text-emerald-400" />
                   <span className="hidden sm:inline">Restart</span>
                 </button>
 
@@ -2421,7 +2419,7 @@ export function App() {
                 {/* Bottom Legend Bar inside Board Frame */}
                 <div className="w-full mt-2 pt-2 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-300/80 px-2">
                   <div className="flex items-center gap-4">
-                    <span className="flex items-center gap-1.5">
+                    <span className="flex items-centery gap-1.5">
                       <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block" />
                       Adjacent Step
                     </span>
