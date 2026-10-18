@@ -11,6 +11,7 @@ A browser-based Sholo Guti (Bead 16) strategy game built with **React, TypeScrip
 - **Game Modes:** Play against the AI at Easy, Medium, or Hard difficulty, or play locally with two players using pass-and-play.
 - **Audio Controls:** Mute or unmute game audio from the home screen or during a match.
 - **Match Tools:** Request a move hint, undo turns, restart the match, and view the Sholo Guti / Bead 16 rules.
+- **Chain Captures:** Continue capturing with the same bead when another jump is available, or use **End Chain Turn** to finish the turn early.
 - **Randomized Starting Turn:** The starting player is selected randomly for both AI and local two-player matches.
 
 ## 🛠️ Tech Stack
