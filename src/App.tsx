@@ -984,9 +984,6 @@ const LiveBoardPreview: React.FC<{ config: GameConfig }> = ({ config }) => {
         <span>
           {rows}×{cols} Grid ({rows * cols} nodes)
         </span>
-        <span>
-          {rows * cols - safeBeads * 2} empty center nodes
-        </span>
       </div>
       <svg viewBox={`0 0 ${width} ${height}`} className="w-full max-w-[250px] h-auto">
         {edges.map((e, i) => (
@@ -1669,7 +1666,7 @@ export function App() {
           SCREEN 1: DEDICATED HOME SCREEN
          ===================================================================== */}
       {activeScreen === 'home' && (
-        <div className="min-h-screen flex flex-col justify-between p-4 sm:p-6 relative">
+        <div className="min-h-screen flex flex-col justify-between max-sm:justify-start p-4 sm:p-6 relative">
           {/* Decorative Ambient Background Glows */}
           <div className="pointer-events-none fixed inset-0 overflow-hidden z-0">
             <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-amber-500/10 blur-3xl" />
@@ -1723,7 +1720,7 @@ export function App() {
           </div>
 
           {/* CENTER OF HOME SCREEN: BRAND HERO & "OPPONENT MODE" IN 2 ROWS */}
-          <div className="relative z-10 flex-1 flex flex-col items-center justify-center my-4 px-2">
+          <div className="relative z-10 flex-1 max-sm:flex-none flex flex-col items-center justify-center my-4 max-sm:my-1 px-2">
             {/* Game Emblem & Title */}
             <div className="text-center mb-4">
               <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-gradient-to-br from-amber-300 via-amber-500 to-amber-700 p-0.5 shadow-[0_0_40px_rgba(245,158,11,0.35)] mb-2">
@@ -1933,7 +1930,7 @@ export function App() {
           </div>
 
           {/* Bottom Home Footer */}
-          <div className="relative z-10 text-center text-xs text-slate-400/80 py-2">
+          <div className="relative z-10 text-center text-xs text-slate-400/80 py-2 max-sm:mt-1 max-sm:py-1">
             Use the <strong className="text-amber-300">Settings (⚙️)</strong> button at the top-left corner to customize board size, bead count, colors &amp; themes.
           </div>
         </div>
@@ -2462,9 +2459,6 @@ export function App() {
                   <h2 className="text-base sm:text-2xl leading-tight font-bold text-white">
                     Game Settings &amp; Board Customization
                   </h2>
-                  <p className="mt-1 text-xs sm:text-sm text-slate-400">
-                    Customize dimensions, bead counts, themes, and player tokens
-                  </p>
                 </div>
               </div>
               <button
@@ -2790,7 +2784,7 @@ export function App() {
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
                       <Layers className="w-3.5 h-3.5 text-amber-400" />
-                      Live Starting Graph Preview
+                      Live Board Preview
                     </span>
                   </div>
                   <LiveBoardPreview config={config} />
@@ -2798,7 +2792,7 @@ export function App() {
                   {/* Graph Diagonal Mode Toggle */}
                   <div className="mt-4">
                     <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
-                      Diagonal Graph Geometry
+                      Diagonal Board Geometry
                     </label>
                     <div className="grid grid-cols-2 gap-2">
                       <button
