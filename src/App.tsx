@@ -1833,9 +1833,6 @@ export function App() {
                                   Novice
                                 </span>
                               </div>
-                              <div className="text-[11px] text-slate-300/80">
-                                Shallow look-ahead &amp; forgiving moves
-                              </div>
                             </div>
                           </div>
                           <Play className="w-4 h-4 text-emerald-300 group-hover:translate-x-0.5 transition" />
@@ -1865,9 +1862,6 @@ export function App() {
                                   Tactician
                                 </span>
                               </div>
-                              <div className="text-[11px] text-slate-300/80">
-                                3-ply tactical search &amp; capture combos
-                              </div>
                             </div>
                           </div>
                           <Play className="w-4 h-4 text-sky-300 group-hover:translate-x-0.5 transition" />
@@ -1896,9 +1890,6 @@ export function App() {
                                 <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-500/30 text-rose-200">
                                   Grandmaster
                                 </span>
-                              </div>
-                              <div className="text-[11px] text-slate-300/80">
-                                Deep 4–6 ply Alpha-Beta Minimax engine
                               </div>
                             </div>
                           </div>
@@ -1931,7 +1922,7 @@ export function App() {
                         2 Players
                       </div>
                       <div className="text-xs text-slate-300/80">
-                        Local Pass &amp; Play on this device
+                        Offline with Local Player
                       </div>
                     </div>
                   </div>
