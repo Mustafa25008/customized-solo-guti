@@ -259,7 +259,9 @@ class SoundEngine {
       gain.connect(this.ctx.destination);
       osc.start();
       osc.stop(this.ctx.currentTime + 0.05);
-    } catch {}
+    } catch (error) {
+      console.warn('Unable to play button sound', error);
+    }
   }
 
   public playSelect() {
@@ -278,8 +280,8 @@ class SoundEngine {
       gain.connect(this.ctx.destination);
       osc.start();
       osc.stop(this.ctx.currentTime + 0.07);
-    } catch {
-      // Ignore audio errors if blocked by browser autoplay policy
+    } catch (error) {
+      console.warn('Unable to play selection sound', error);
     }
   }
 
@@ -299,7 +301,9 @@ class SoundEngine {
       gain.connect(this.ctx.destination);
       osc.start();
       osc.stop(this.ctx.currentTime + 0.095);
-    } catch {}
+    } catch (error) {
+      console.warn('Unable to play move sound', error);
+    }
   }
 
   public playCapture() {
@@ -319,7 +323,9 @@ class SoundEngine {
       gain.connect(this.ctx.destination);
       osc.start(now);
       osc.stop(now + 0.16);
-    } catch {}
+    } catch (error) {
+      console.warn('Unable to play capture sound', error);
+    }
   }
 
   public playWin() {
@@ -342,7 +348,9 @@ class SoundEngine {
         osc.start(now);
         osc.stop(now + 0.3);
       });
-    } catch {}
+    } catch (error) {
+      console.warn('Unable to play victory sound', error);
+    }
   }
 }
 
@@ -646,8 +654,6 @@ function evaluateBoardState(
   diagonalRule: DiagonalRule,
   difficulty: AIDifficulty = 'hard'
 ): number {
-  const minimizingPlayer: PlayerId = maximizingPlayer === 1 ? 2 : 1;
-
   let maxBeads = 0;
   let minBeads = 0;
   let maxPositional = 0;
@@ -772,23 +778,18 @@ function computeBestAIMove(
     };
   }
 
-  // Determine search depth and randomness based on difficulty
+  // Determine search depth based on difficulty
   const totalNodes = rows * cols;
-  let targetDepth = 5;
-  if (difficulty === 'easy') {
-    targetDepth = 1; // 1-ply shallow lookahead with forgiving noise
-  } else if (difficulty === 'medium') {
-    targetDepth = 3; // 3-ply tactical search
-  } else {
-    // Hard: 4 to 6 plies adaptive
-    if (totalNodes <= 16 && rootMoves.length <= 18) {
-      targetDepth = 6;
-    } else if (totalNodes >= 49 || rootMoves.length > 38) {
-      targetDepth = 4;
-    } else {
-      targetDepth = 5;
-    }
-  }
+  const targetDepth =
+    difficulty === 'easy'
+      ? 1
+      : difficulty === 'medium'
+      ? 3
+      : totalNodes <= 16 && rootMoves.length <= 18
+      ? 6
+      : totalNodes >= 49 || rootMoves.length > 38
+      ? 4
+      : 5;
 
   const minimax = (
     currBoard: (PlayerId | 0)[][],
@@ -1121,10 +1122,6 @@ export function App() {
   const [selectedNode, setSelectedNode] = useState<Coord | null>(null);
   const [chainLockNode, setChainLockNode] = useState<Coord | null>(null);
   const [currentChainSteps, setCurrentChainSteps] = useState<SingleStepMove[]>([]);
-  const [winner, setWinner] = useState<{
-    player: PlayerId;
-    reason: string;
-  } | null>(null);
 
   // ---- History, Hint & AI Evaluation ----
   const [moveHistory, setMoveHistory] = useState<MoveHistoryEntry[]>([]);
@@ -1213,7 +1210,6 @@ export function App() {
       setSelectedNode(null);
       setChainLockNode(null);
       setCurrentChainSteps([]);
-      setWinner(null);
       setMoveHistory([]);
       setLastMoveTrail([]);
       setIsAIThinking(false);
@@ -1233,7 +1229,6 @@ export function App() {
       clearTimeout(aiTimeoutRef.current);
     }
     setIsAIThinking(false);
-    setWinner(null);
     setShowDifficultyPickerOnHome(false);
     setActiveScreen('home');
   };
@@ -1250,6 +1245,67 @@ export function App() {
     }
     return { p1: p1Count, p2: p2Count };
   }, [board]);
+
+  const winner = useMemo<{ player: PlayerId; reason: string } | null>(() => {
+    if (
+      activeScreen !== 'game' ||
+      showSettingsModal ||
+      chainLockNode ||
+      board.length !== matchConfig.rows ||
+      (board[0]?.length || 0) !== matchConfig.cols
+    ) {
+      return null;
+    }
+
+    if (beadCounts.p2 === 0) {
+      return {
+        player: 1,
+        reason: `Captured all ${matchConfig.beadsPerPlayer} opponent beads!`,
+      };
+    }
+    if (beadCounts.p1 === 0) {
+      return {
+        player: 2,
+        reason: `Captured all ${matchConfig.beadsPerPlayer} opponent beads!`,
+      };
+    }
+
+    const availableSequences = generateAllTurnSequences(
+      board,
+      currentTurn,
+      matchConfig.rows,
+      matchConfig.cols,
+      matchConfig.diagonalRule
+    );
+    if (availableSequences.length === 0) {
+      return {
+        player: currentTurn === 1 ? 2 : 1,
+        reason: `${
+          currentTurn === 1 ? matchConfig.p1.name : matchConfig.p2.name
+        } is completely trapped with no legal moves!`,
+      };
+    }
+
+    return null;
+  }, [
+    activeScreen,
+    showSettingsModal,
+    chainLockNode,
+    board,
+    matchConfig.rows,
+    matchConfig.cols,
+    matchConfig.diagonalRule,
+    matchConfig.beadsPerPlayer,
+    matchConfig.p1.name,
+    matchConfig.p2.name,
+    currentTurn,
+    beadCounts.p1,
+    beadCounts.p2,
+  ]);
+
+  useEffect(() => {
+    if (winner) soundFX.playWin();
+  }, [winner]);
 
   // Valid moves for the currently selected node
   const validMovesForSelection = useMemo(() => {
@@ -1284,77 +1340,6 @@ export function App() {
     matchConfig.rows,
     matchConfig.cols,
     matchConfig.diagonalRule,
-  ]);
-
-  // Check for victory condition ONLY during an active match on the 'game' screen
-  useEffect(() => {
-    if (activeScreen !== 'game' || showSettingsModal || winner || chainLockNode)
-      return;
-    if (
-      board.length !== matchConfig.rows ||
-      (board[0]?.length || 0) !== matchConfig.cols
-    ) {
-      return;
-    }
-
-    let p1Count = 0;
-    let p2Count = 0;
-    for (let r = 0; r < matchConfig.rows; r++) {
-      for (let c = 0; c < matchConfig.cols; c++) {
-        if (board[r]?.[c] === 1) p1Count++;
-        if (board[r]?.[c] === 2) p2Count++;
-      }
-    }
-
-    if (p2Count === 0) {
-      soundFX.playWin();
-      setWinner({
-        player: 1,
-        reason: `Captured all ${matchConfig.beadsPerPlayer} opponent beads!`,
-      });
-      return;
-    }
-    if (p1Count === 0) {
-      soundFX.playWin();
-      setWinner({
-        player: 2,
-        reason: `Captured all ${matchConfig.beadsPerPlayer} opponent beads!`,
-      });
-      return;
-    }
-
-    // Check if the player whose turn it is has any legal moves
-    const availableSequences = generateAllTurnSequences(
-      board,
-      currentTurn,
-      matchConfig.rows,
-      matchConfig.cols,
-      matchConfig.diagonalRule
-    );
-
-    if (availableSequences.length === 0) {
-      const victoriousPlayer: PlayerId = currentTurn === 1 ? 2 : 1;
-      soundFX.playWin();
-      setWinner({
-        player: victoriousPlayer,
-        reason: `${
-          currentTurn === 1 ? matchConfig.p1.name : matchConfig.p2.name
-        } is completely trapped with no legal moves!`,
-      });
-    }
-  }, [
-    board,
-    currentTurn,
-    chainLockNode,
-    winner,
-    activeScreen,
-    showSettingsModal,
-    matchConfig.rows,
-    matchConfig.cols,
-    matchConfig.diagonalRule,
-    matchConfig.beadsPerPlayer,
-    matchConfig.p1.name,
-    matchConfig.p2.name,
   ]);
 
   // Finalize a player's turn and pass control
@@ -1395,9 +1380,7 @@ export function App() {
       !showSettingsModal &&
       !chainLockNode
     ) {
-      setIsAIThinking(true);
-
-      aiTimeoutRef.current = window.setTimeout(() => {
+      const executeAIMove = () => {
         const snapshotBeforeAI = cloneBoard(board);
         const { bestSequence, evalScore: nextEval } = computeBestAIMove(
           board,
@@ -1443,7 +1426,12 @@ export function App() {
         };
 
         executeStepIndex(0);
-      }, 280);
+      };
+
+      aiTimeoutRef.current = window.setTimeout(() => {
+        setIsAIThinking(true);
+        aiTimeoutRef.current = window.setTimeout(executeAIMove, 280);
+      }, 0);
     }
 
     return () => {
@@ -1561,7 +1549,6 @@ export function App() {
         setBoard(cloneBoard(targetEntry.boardSnapshot));
         setMoveHistory((prev) => prev.slice(0, lastHumanEntryIndex));
         setCurrentTurn(1);
-        setWinner(null);
         setSelectedNode(null);
         setLastMoveTrail([]);
         setHintMove(null);
@@ -1571,7 +1558,6 @@ export function App() {
       setBoard(cloneBoard(lastEntry.boardSnapshot));
       setMoveHistory((prev) => prev.slice(0, -1));
       setCurrentTurn(lastEntry.player);
-      setWinner(null);
       setSelectedNode(null);
       setLastMoveTrail([]);
       setHintMove(null);
