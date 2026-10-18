@@ -1660,7 +1660,7 @@ export function App() {
 
   return (
     <div
-      className={`app-shell ${activeScreen === 'home' ? 'home-app-shell' : ''} min-h-screen ${themeStyle.outerShellBg} text-slate-100 flex flex-col font-sans selection:bg-amber-500/30 relative overflow-x-hidden`}
+      className={`app-shell ${activeScreen === 'home' ? 'home-app-shell' : ''} ${activeScreen === 'home' && showDifficultyPickerOnHome ? 'home-ai-expanded' : ''} min-h-screen ${themeStyle.outerShellBg} text-slate-100 flex flex-col font-sans selection:bg-amber-500/30 relative overflow-x-hidden`}
     >
       {/* =====================================================================
           SCREEN 1: DEDICATED HOME SCREEN
@@ -1779,7 +1779,7 @@ export function App() {
                       </div>
                       <div className="text-left">
                         <div className="text-lg sm:text-xl font-black text-white group-hover:text-amber-200 transition">
-                          Vs Computer
+                          VS Computer
                         </div>
                         <div className="text-xs text-slate-300/80">
                           Challenge AI • Easy, Medium, or Hard
@@ -1930,7 +1930,7 @@ export function App() {
           </div>
 
           {/* Bottom Home Footer */}
-          <div className="relative z-10 text-center text-xs text-slate-400/80 py-2 max-sm:mt-1 max-sm:py-1">
+          <div className="relative z-10 text-center text-xs text-slate-400/80 py-2 max-sm:mt-4 max-sm:py-4">
             Use the <strong className="text-amber-300">Settings (⚙️)</strong> button at the top-left corner to customize board size, bead count, colors &amp; themes.
           </div>
         </div>
@@ -2140,7 +2140,7 @@ export function App() {
                   <span>
                     {selectedNode
                       ? `Selected: ${formatCoord(selectedNode)} (${validMovesForSelection.length} legal targets)`
-                      : 'Select a bead to inspect legal graph lines'}
+                      : 'Select a bead'}
                   </span>
                 </div>
 
@@ -2420,23 +2420,18 @@ export function App() {
 
                 {/* Bottom Legend Bar inside Board Frame */}
                 <div className="w-full mt-2 pt-2 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-300/80 px-2">
-                  <div className="flex items-center gap-4">
-                    <span className="flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block" />
-                      Adjacent Step
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block" />
-                      Capture Jump Target
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full border border-red-400 inline-block" />
-                      Jumpable Enemy
-                    </span>
-                  </div>
-                  <div className="text-[11px] text-slate-400">
-                    Chain captures automatically continue when another jump is available
-                  </div>
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block" />
+                    Adjacent Step
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block" />
+                    Capture Jump Target
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full border border-red-400 inline-block" />
+                    Jumpable Enemy
+                  </span>
                 </div>
               </div>
             </div>

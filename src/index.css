@@ -44,4 +44,14 @@ body {
     min-height: 0;
     box-sizing: border-box;
   }
+
+  .home-app-shell.home-ai-expanded {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .home-app-shell.home-ai-expanded .home-screen {
+    height: auto;
+    min-height: 100%;
+  }
 }
